@@ -1,0 +1,24 @@
+From e5d527be7e6984882306b49c067f1fec18920735 Mon Sep 17 00:00:00 2001
+From: astro <15655250+0x617374726F@users.noreply.github.com>
+Date: Son, 21 Dec 2025 13:12:00 +0100
+Subject: [PATCH] Revert "gpio: swnode: don't use the swnode's name as the key for GPIO lookup"
+
+---
+ drivers/gpio/gpiolib-swnode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpio/gpiolib-swnode.c b/drivers/gpio/gpiolib-swnode.c
+index e3806db1c0e07..f21dbc28cf2c8 100644
+--- a/drivers/gpio/gpiolib-swnode.c
++++ b/drivers/gpio/gpiolib-swnode.c
+@@ -41,7 +41,7 @@ static struct gpio_device *swnode_get_gpio_device(struct fwnode_handle *fwnode)
+ 	    !strcmp(gdev_node->name, GPIOLIB_SWNODE_UNDEFINED_NAME))
+ 		return ERR_PTR(-ENOENT);
+ 
+-	gdev = gpio_device_find_by_fwnode(fwnode);
++	gdev = gpio_device_find_by_label(gdev_node->name);
+ 	return gdev ?: ERR_PTR(-EPROBE_DEFER);
+ }
+ 
+-- 
+2.47.3
